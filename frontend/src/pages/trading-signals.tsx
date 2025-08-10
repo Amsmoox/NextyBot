@@ -15,6 +15,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api";
+import { SimpleContentSettings } from '@/components/trading-signals/SimpleContentSettings';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -421,121 +422,6 @@ export default function TradingSignals() {
       </div>
     );
   };
-
-  const ContentSettings = () => (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Signal Format & Content</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label htmlFor="signal-template">Signal Template</Label>
-            <Textarea 
-              id="signal-template"
-              rows={6}
-              placeholder="⚡ NEW SIGNAL: {pair} {type}
-💰 Entry: {entry}
-🎯 Target: {target}
-🛡️ Stop Loss: {stopLoss}
-📊 Current: {current}
-
-Technical Setup: {analysis}
-Risk/Reward: {riskReward}
-Source: {source}
-
-#TradingSignal #{pair}"
-              defaultValue="⚡ NEW SIGNAL: {pair} {type}
-💰 Entry: {entry}
-🎯 Target: {target}
-🛡️ Stop Loss: {stopLoss}
-📊 Current: {current}
-
-Technical Setup: {analysis}
-Risk/Reward: {riskReward}
-Source: {source}
-
-#TradingSignal #{pair}"
-            />
-          </div>
-          <div>
-            <Label htmlFor="analysis-style">Analysis Enhancement</Label>
-            <Select defaultValue="basic">
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">No enhancement</SelectItem>
-                <SelectItem value="basic">Basic technical context</SelectItem>
-                <SelectItem value="detailed">Detailed analysis with AI</SelectItem>
-                <SelectItem value="educational">Educational explanations</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Switch id="risk-analysis" defaultChecked />
-            <Label htmlFor="risk-analysis">Include risk/reward analysis</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Switch id="market-context" defaultChecked />
-            <Label htmlFor="market-context">Add market context</Label>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Publishing Settings</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <Label htmlFor="posting-mode">Posting Mode</Label>
-            <Select defaultValue="immediate">
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="immediate">Post immediately</SelectItem>
-                <SelectItem value="review">Review before posting</SelectItem>
-                <SelectItem value="batch">Batch posting (hourly)</SelectItem>
-                <SelectItem value="manual">Manual posting only</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label>Target Platforms</Label>
-            <div className="grid grid-cols-2 gap-2 mt-2">
-              {['telegram', 'twitter', 'discord', 'websites'].map((platform) => (
-                <div key={platform} className="flex items-center space-x-2">
-                  <Switch 
-                    id={`platform-${platform}`} 
-                    defaultChecked={platform !== 'websites'} 
-                  />
-                  <Label htmlFor={`platform-${platform}`} className="capitalize">
-                    {platform === 'twitter' ? 'X (Twitter)' : platform}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Label htmlFor="quality-filter">Signal Quality Filter</Label>
-            <Select defaultValue="medium">
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All signals</SelectItem>
-                <SelectItem value="medium">Medium quality and above</SelectItem>
-                <SelectItem value="high">High quality only</SelectItem>
-                <SelectItem value="premium">Premium signals only</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-  );
 
   const AddSignalSourceModal = () => {
     const [formData, setFormData] = useState({
@@ -1358,7 +1244,7 @@ Source: {source}
             </TabsContent>
 
             <TabsContent value="settings" className="space-y-4">
-              <ContentSettings />
+              <SimpleContentSettings />
             </TabsContent>
           </Tabs>
         </main>

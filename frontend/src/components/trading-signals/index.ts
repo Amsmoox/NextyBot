@@ -1,0 +1,1 @@
+export { SimpleContentSettings } from './SimpleContentSettings';
