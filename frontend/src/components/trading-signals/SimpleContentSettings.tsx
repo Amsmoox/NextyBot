@@ -55,16 +55,60 @@ export function SimpleContentSettings() {
   const [telegramEnabled, setTelegramEnabled] = useState(true);
   const [qualityFilter, setQualityFilter] = useState('medium');
 
-  // Save to localStorage
-  const saveTemplate = useCallback((newTemplate: string) => {
+  // Save to localStorage and sync with backend
+  const saveTemplate = useCallback(async (newTemplate: string) => {
     setTemplate(newTemplate);
     localStorage.setItem('signal-template', newTemplate);
-  }, []);
+    
+    // Sync with backend
+    try {
+      const templateData = {
+        template: newTemplate,
+        publishMode,
+        scheduledTime,
+        telegramEnabled,
+        qualityFilter,
+        updatedAt: new Date().toISOString()
+      };
+      
+      await fetch('/api/messaging/update-template/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(templateData),
+      });
+    } catch (error) {
+      console.log('Backend sync failed, template saved locally only');
+    }
+  }, [publishMode, scheduledTime, telegramEnabled, qualityFilter]);
 
-  const savePublishMode = useCallback((mode: 'immediate' | 'scheduled') => {
+  const savePublishMode = useCallback(async (mode: 'immediate' | 'scheduled') => {
     setPublishMode(mode);
     localStorage.setItem('publish-mode', mode);
-  }, []);
+    
+    // Sync with backend
+    try {
+      const templateData = {
+        template,
+        publishMode: mode,
+        scheduledTime,
+        telegramEnabled,
+        qualityFilter,
+        updatedAt: new Date().toISOString()
+      };
+      
+      await fetch('/api/messaging/update-template/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(templateData),
+      });
+    } catch (error) {
+      console.log('Backend sync failed, settings saved locally only');
+    }
+  }, [template, scheduledTime, telegramEnabled, qualityFilter]);
 
   // Token insertion
   const insertToken = (tokenId: string) => {
