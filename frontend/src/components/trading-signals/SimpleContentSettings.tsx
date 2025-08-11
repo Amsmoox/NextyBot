@@ -209,7 +209,7 @@ export function SimpleContentSettings() {
           <div className="space-y-3">
             <Label className="text-sm font-medium">Quick Insert Tokens:</Label>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2">
-              {AVAILABLE_TOKENS.filter(token => ['pair', 'type', 'entry', 'target', 'stopLoss', 'current', 'riskReward', 'source'].includes(token.id)).map((token) => (
+              {AVAILABLE_TOKENS.map((token) => (
                 <Button
                   key={token.id}
                   variant="outline"
@@ -221,24 +221,6 @@ export function SimpleContentSettings() {
                 </Button>
               ))}
             </div>
-            <details className="text-sm">
-              <summary className="cursor-pointer text-slate-600 hover:text-slate-900">
-                Show more tokens ({AVAILABLE_TOKENS.length - 8} additional)
-              </summary>
-              <div className="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                {AVAILABLE_TOKENS.filter(token => !['pair', 'type', 'entry', 'target', 'stopLoss', 'current', 'riskReward', 'source'].includes(token.id)).map((token) => (
-                  <Button
-                    key={token.id}
-                    variant="outline"
-                    size="sm"
-                    onClick={() => insertToken(token.id)}
-                    className="text-xs h-7 border-slate-200 hover:bg-slate-50"
-                  >
-                    {token.label}
-                  </Button>
-                ))}
-              </div>
-            </details>
           </div>
 
           <Separator />
